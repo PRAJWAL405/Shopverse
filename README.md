@@ -15,7 +15,7 @@ graph TD
     Client[React Frontend <br/> localhost:5173] -->|API Proxy /api| Gateway[Spring Boot Backend <br/> localhost:8081]
     Gateway -->|Spring Security JWT| AuthFilter[JWT Auth Filter]
     AuthFilter -->|Controllers| API[API Endpoints]
-    API -->|Spring Data JPA| DB[(MySQL Database <br/> marketplace_db)]
+    API -->|Spring Data JPA| DB[(MySQL Database <br/> Shopverse)]
     API -->|Fallback Cache| Cache[ConcurrentHashMap Cache]
     DB -->|Schema Versioning| Liquibase[Liquibase Migrations]
 ```
@@ -79,15 +79,15 @@ Ensure you have the following installed locally:
 ---
 
 ### 💻 Step 1: Database Setup
-1. Create a MySQL database named `marketplace_db`:
+1. Create a MySQL database named `Shopverse`:
    ```sql
-   CREATE DATABASE marketplace_db;
+   CREATE DATABASE Shopverse;
    ```
 2. Open `marketplace-backend/src/main/resources/application.yml` and verify the datasource properties:
    ```yaml
    spring:
      datasource:
-       url: jdbc:mysql://localhost:3306/marketplace_db?createDatabaseIfNotExist=true&useSSL=false&allowMultiQueries=true
+       url: jdbc:mysql://localhost:3306/Shopverse?createDatabaseIfNotExist=true&useSSL=false&allowMultiQueries=true
        username: root
        password: Prajwal123  # Update with your MySQL password
    ```

@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:mysql://mysql:3306/marketplace_db?createDatabaseIfNotExist=true&useSSL=false
+    url: jdbc:mysql://mysql:3306/Shopverse?createDatabaseIfNotExist=true&useSSL=false
     username: root
     password: Prajwal123
 
