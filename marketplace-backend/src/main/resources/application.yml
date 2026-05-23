@@ -3,7 +3,7 @@ spring:
     name: marketplace-backend
 
   datasource:
-    url: jdbc:mysql://localhost:3306/Shopverse?createDatabaseIfNotExist=true&useSSL=false&allowMultiQueries=true
+    url: jdbc:mysql://localhost:3306/Shopverse?createDatabaseIfNotExist=true&useSSL=false&allowMultiQueries=true&allowPublicKeyRetrieval=true
     username: root
     password: Prajwal123
     driver-class-name: com.mysql.cj.jdbc.Driver
