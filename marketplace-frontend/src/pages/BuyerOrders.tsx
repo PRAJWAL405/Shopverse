@@ -30,7 +30,7 @@ export const BuyerOrders = () => {
                 </div>
                 <div>
                   <div className="text-sm text-muted">Total</div>
-                  <div className="font-bold">${order.totalAmount.toFixed(2)}</div>
+                  <div className="font-bold">₹{order.totalAmount.toLocaleString('en-IN')}</div>
                 </div>
                 <div>
                   <div className="text-sm text-muted">Order ID</div>
@@ -49,7 +49,7 @@ export const BuyerOrders = () => {
                       <div className="text-sm text-muted">Sold by: {item.shopName}</div>
                       <div className="text-sm">Qty: {item.quantity}</div>
                     </div>
-                    <div className="font-bold">${item.subtotal.toFixed(2)}</div>
+                    <div className="font-bold">₹{item.subtotal.toLocaleString('en-IN')}</div>
                   </div>
                 ))}
               </div>

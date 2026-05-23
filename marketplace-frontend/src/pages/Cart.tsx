@@ -49,7 +49,7 @@ export const Cart = () => {
               <img src={item.imageUrl || ''} alt={item.productName} className="cart-item__img" />
               <div>
                 <Link to={`/products/${item.productId}`} className="font-bold hover:text-primary">{item.productName}</Link>
-                <div className="text-primary-light font-bold mt-1">${item.unitPrice.toFixed(2)}</div>
+                <div className="text-primary-light font-bold mt-1">₹{item.unitPrice.toLocaleString('en-IN')}</div>
                 {item.quantity > item.availableStock && (
                   <div className="text-danger text-sm mt-1">Only {item.availableStock} left in stock!</div>
                 )}
@@ -75,7 +75,7 @@ export const Cart = () => {
           <h3 className="font-display font-bold text-xl mb-3">Order Summary</h3>
           <div className="flex justify-between mb-2">
             <span className="text-muted">Subtotal ({cart.itemCount} items)</span>
-            <span className="font-bold">${cart.total.toFixed(2)}</span>
+            <span className="font-bold">₹{cart.total.toLocaleString('en-IN')}</span>
           </div>
           <div className="flex justify-between mb-3 text-sm">
             <span className="text-muted">Shipping</span>
@@ -84,7 +84,7 @@ export const Cart = () => {
           <div className="divider" />
           <div className="flex justify-between mb-4 text-xl">
             <span className="font-bold">Total</span>
-            <span className="font-bold text-primary-light">${cart.total.toFixed(2)}</span>
+            <span className="font-bold text-primary-light">₹{cart.total.toLocaleString('en-IN')}</span>
           </div>
           
           <button 

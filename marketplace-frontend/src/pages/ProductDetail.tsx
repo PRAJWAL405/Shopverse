@@ -84,7 +84,7 @@ export const ProductDetail = () => {
           </div>
 
           <div className="text-3xl font-display font-bold text-primary-light">
-            ${product.price.toFixed(2)}
+          ₹{product.price.toLocaleString('en-IN')}
           </div>
 
           <p className="text-muted leading-relaxed whitespace-pre-wrap">
@@ -120,7 +120,7 @@ export const ProductDetail = () => {
           )}
 
           <div className="flex-col gap-2 mt-2">
-            <div className="flex items-center gap-2 text-sm text-muted"><Truck size={16} /> Free shipping on orders over $50</div>
+            <div className="flex items-center gap-2 text-sm text-muted"><Truck size={16} /> Free shipping on orders over ₹999</div>
             <div className="flex items-center gap-2 text-sm text-muted"><Clock size={16} /> 30-day return policy</div>
           </div>
         </div>

@@ -70,7 +70,7 @@ export const SellerProductNew = () => {
           </div>
           <div className="flex gap-3">
             <div className="form-group flex-1">
-              <label className="form-label">Price ($)</label>
+              <label className="form-label">Price (₹)</label>
               <input type="number" step="0.01" min="0" required value={form.price} onChange={e => setForm({...form, price: e.target.value})} />
             </div>
             <div className="form-group flex-1">

@@ -19,7 +19,7 @@ export const ProductCard = ({ product }: Props) => {
       <div className="product-card__body">
         <div className="product-card__category">{product.categoryName}</div>
         <h3 className="product-card__name">{product.name}</h3>
-        <div className="product-card__price">${product.price.toFixed(2)}</div>
+        <div className="product-card__price">₹{product.price.toLocaleString('en-IN')}</div>
         
         <div className="product-card__meta">
           <div className="product-card__rating">

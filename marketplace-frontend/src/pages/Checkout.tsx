@@ -85,7 +85,7 @@ export const Checkout = () => {
           </div>
 
           <button type="submit" className="btn btn-primary btn-lg w-full justify-center" disabled={checkoutMut.isPending}>
-            {checkoutMut.isPending ? 'Processing Payment...' : `Pay $${cart.total.toFixed(2)}`}
+            {checkoutMut.isPending ? 'Processing Payment...' : `Pay ₹${cart.total.toLocaleString('en-IN')}`}
           </button>
         </form>
 
@@ -95,14 +95,14 @@ export const Checkout = () => {
             {cart.items.map(item => (
               <div key={item.productId} className="flex justify-between text-sm">
                 <span className="text-muted">{item.quantity}x {item.productName}</span>
-                <span>${item.subtotal.toFixed(2)}</span>
+                <span>₹{item.subtotal.toLocaleString('en-IN')}</span>
               </div>
             ))}
           </div>
           <div className="divider" />
           <div className="flex justify-between mb-2 text-xl">
             <span className="font-bold">Total</span>
-            <span className="font-bold text-primary-light">${cart.total.toFixed(2)}</span>
+            <span className="font-bold text-primary-light">₹{cart.total.toLocaleString('en-IN')}</span>
           </div>
         </div>
       </div>

@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query'
 import { Link } from 'react-router-dom'
-import { DollarSign, Package, TrendingUp, AlertCircle } from 'lucide-react'
+import { IndianRupee, Package, TrendingUp, AlertCircle } from 'lucide-react'
 import { sellerApi } from '../api/productApi'
 
 export const SellerDashboard = () => {
@@ -22,9 +22,9 @@ export const SellerDashboard = () => {
         <div className="dash-stat">
           <div className="dash-stat__label">Total Revenue</div>
           <div className="dash-stat__value text-primary-light">
-            ${stats?.totalRevenue.toFixed(2)}
+          ₹{stats?.totalRevenue.toLocaleString('en-IN')}
           </div>
-          <div className="dash-stat__icon bg-primary/20 text-primary-light absolute top-4 right-4"><DollarSign /></div>
+          <div className="dash-stat__icon bg-primary/20 text-primary-light absolute top-4 right-4"><IndianRupee /></div>
         </div>
         <div className="dash-stat">
           <div className="dash-stat__label">Pending Orders</div>
@@ -60,7 +60,7 @@ export const SellerDashboard = () => {
                 <tr key={tp.productId}>
                   <td className="font-bold">{tp.productName}</td>
                   <td>{tp.totalQtySold}</td>
-                  <td className="text-success">${tp.revenue.toFixed(2)}</td>
+                  <td className="text-success">₹{tp.revenue.toLocaleString('en-IN')}</td>
                 </tr>
               ))}
             </tbody>

@@ -57,7 +57,7 @@ export const SellerOrders = () => {
                     <tr key={idx}>
                       <td>{item.productName}</td>
                       <td>{item.quantity}</td>
-                      <td>${item.subtotal.toFixed(2)}</td>
+                      <td>₹{item.subtotal.toLocaleString('en-IN')}</td>
                     </tr>
                   ))}
                 </tbody>
