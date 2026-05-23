@@ -1,0 +1,43 @@
+version: '3.9'
+
+# Development compose — only infrastructure services.
+# Run the Spring Boot app locally with: mvn spring-boot:run
+# Run the React app locally with: npm run dev
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: marketplace_postgres_dev
+    environment:
+      POSTGRES_DB: marketplace_db
+      POSTGRES_USER: marketplace_user
+      POSTGRES_PASSWORD: marketplace_pass
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_dev_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U marketplace_user -d marketplace_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:7-alpine
+    container_name: marketplace_redis_dev
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_dev_data:/data
+    command: redis-server --appendonly yes
+
+  mailhog:
+    image: mailhog/mailhog:latest
+    container_name: marketplace_mailhog_dev
+    ports:
+      - "1025:1025"
+      - "8025:8025"
+
+volumes:
+  postgres_dev_data:
+  redis_dev_data:

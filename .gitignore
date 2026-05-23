@@ -1,0 +1,27 @@
+# IDEs and Editors
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Backend (Java/Spring Boot)
+marketplace-backend/target/
+marketplace-backend/uploads/
+*.class
+*.log
+*.jar
+*.war
+
+# Frontend (Node.js/React)
+marketplace-frontend/node_modules/
+marketplace-frontend/dist/
+marketplace-frontend/dist-ssr/
+marketplace-frontend/.env.local
+marketplace-frontend/.env.development.local
+marketplace-frontend/.env.test.local
+marketplace-frontend/.env.production.local
+npm-debug.log*
+
+# OS Files
+.DS_Store
+Thumbs.db
