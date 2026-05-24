@@ -6,7 +6,15 @@ interface Props {
   product: ProductResponse
 }
 
+const calcEmi = (price: number, months: number, ratePerMonth = 1.5) => {
+  const r = ratePerMonth / 100
+  return Math.round((price * r * Math.pow(1 + r, months)) / (Math.pow(1 + r, months) - 1))
+}
+
 export const ProductCard = ({ product }: Props) => {
+  const showEmi = product.price >= 5000
+  const emiAmt = showEmi ? calcEmi(product.price, 12) : 0
+
   return (
     <Link to={`/products/${product.id}`} className="product-card">
       <div className="product-card__image">
@@ -20,7 +28,14 @@ export const ProductCard = ({ product }: Props) => {
         <div className="product-card__category">{product.categoryName}</div>
         <h3 className="product-card__name">{product.name}</h3>
         <div className="product-card__price">₹{product.price.toLocaleString('en-IN')}</div>
-        
+
+        {showEmi && (
+          <div className="product-card__emi">
+            <span className="emi-badge">EMI</span>
+            <span>from ₹{emiAmt.toLocaleString('en-IN')}/mo</span>
+          </div>
+        )}
+
         <div className="product-card__meta">
           <div className="product-card__rating">
             <Star size={14} fill="currentColor" />

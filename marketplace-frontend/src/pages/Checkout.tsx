@@ -7,7 +7,12 @@ import { orderApi } from '../api/orderApi'
 import { useAppSelector, useAppDispatch } from '../store/hooks'
 import { clearCartState } from '../store/slices/cartSlice'
 
-type PaymentMethod = 'UPI' | 'NET_BANKING' | 'COD'
+type PaymentMethod = 'UPI' | 'NET_BANKING' | 'COD' | 'EMI'
+
+const calcEmi = (price: number, months: number) => {
+  const r = 1.5 / 100
+  return Math.round((price * r * Math.pow(1 + r, months)) / (Math.pow(1 + r, months) - 1))
+}
 
 export const Checkout = () => {
   const cart = useAppSelector(s => s.cart.cart)
@@ -25,6 +30,7 @@ export const Checkout = () => {
     paymentMethod: 'COD' as PaymentMethod,
     upiId: '',
     bankName: '',
+    emiMonths: 12,
   })
 
   const checkoutMut = useMutation({
@@ -45,6 +51,9 @@ export const Checkout = () => {
     if (form.paymentMethod === 'UPI' && !form.upiId.trim()) {
       return toast.error('Please enter your UPI ID')
     }
+    if (form.paymentMethod === 'EMI' && !form.bankName) {
+      return toast.error('Please select a bank for EMI')
+    }
     checkoutMut.mutate()
   }
 
@@ -53,10 +62,13 @@ export const Checkout = () => {
     return null
   }
 
+  const showEmi = cart.total >= 5000
+
   const paymentIcon = {
     UPI: <Smartphone size={18} className="text-primary" />,
     NET_BANKING: <Building2 size={18} className="text-primary" />,
     COD: <Package size={18} className="text-success" />,
+    EMI: <CreditCard size={18} className="text-warning" />,
   }
 
   return (
@@ -120,8 +132,8 @@ export const Checkout = () => {
             <h3 className="font-display font-bold text-lg mb-3 flex items-center gap-2">
               <CreditCard size={20} /> 3. Payment Method
             </h3>
-            <div className="flex gap-3 mb-4">
-              {(['UPI', 'NET_BANKING', 'COD'] as PaymentMethod[]).map(method => (
+            <div className="flex gap-3 mb-4 flex-wrap">
+              {(['UPI', 'NET_BANKING', 'COD', ...(showEmi ? ['EMI'] : [])] as PaymentMethod[]).map(method => (
                 <button
                   key={method}
                   type="button"
@@ -131,9 +143,11 @@ export const Checkout = () => {
                       ? 'border-primary bg-primary/10 text-primary'
                       : 'border-border text-muted hover:border-primary/40'
                   }`}
+                  style={{ minWidth: '80px' }}
                 >
                   {paymentIcon[method]}
                   {method === 'NET_BANKING' ? 'Net Banking' : method}
+                  {method === 'EMI' && <span className="emi-badge" style={{ fontSize: '0.6rem' }}>No Cost*</span>}
                 </button>
               ))}
             </div>
@@ -167,10 +181,51 @@ export const Checkout = () => {
                 <CheckCircle2 size={18} /> Cash on Delivery — Pay when your order arrives. No extra charges.
               </div>
             )}
+            {form.paymentMethod === 'EMI' && (
+              <div className="flex-col gap-3">
+                <div className="p-3 bg-warning/10 border border-warning/20 rounded-lg text-sm">
+                  <div className="font-bold text-warning mb-1">📅 EMI Payment</div>
+                  <p className="text-muted text-xs">EMI will be processed via your selected bank's credit/debit card. Interest charges may apply.</p>
+                </div>
+                <div className="flex gap-3">
+                  <div className="form-group flex-1">
+                    <label className="form-label">Select Bank</label>
+                    <select value={form.bankName} onChange={e => setForm({...form, bankName: e.target.value})}>
+                      <option value="">-- Choose bank --</option>
+                      <option>HDFC Bank</option>
+                      <option>ICICI Bank</option>
+                      <option>SBI Card</option>
+                      <option>Axis Bank</option>
+                      <option>Kotak Mahindra Bank</option>
+                      <option>Yes Bank</option>
+                      <option>Punjab National Bank</option>
+                      <option>Bank of Baroda</option>
+                    </select>
+                  </div>
+                  <div className="form-group flex-1">
+                    <label className="form-label">EMI Duration</label>
+                    <select value={form.emiMonths} onChange={e => setForm({...form, emiMonths: Number(e.target.value)})}>
+                      <option value={3}>3 Months — ₹{calcEmi(cart.total, 3).toLocaleString('en-IN')}/mo</option>
+                      <option value={6}>6 Months — ₹{calcEmi(cart.total, 6).toLocaleString('en-IN')}/mo</option>
+                      <option value={9}>9 Months — ₹{calcEmi(cart.total, 9).toLocaleString('en-IN')}/mo</option>
+                      <option value={12}>12 Months — ₹{calcEmi(cart.total, 12).toLocaleString('en-IN')}/mo</option>
+                    </select>
+                  </div>
+                </div>
+                <div className="p-3 bg-surface-3 rounded-lg text-sm flex justify-between items-center">
+                  <span className="text-muted">Monthly EMI</span>
+                  <span className="font-bold text-warning text-lg">₹{calcEmi(cart.total, form.emiMonths).toLocaleString('en-IN')}/mo × {form.emiMonths}</span>
+                </div>
+              </div>
+            )}
           </div>
 
           <button type="submit" className="btn btn-primary btn-lg w-full justify-center" disabled={checkoutMut.isPending}>
-            {checkoutMut.isPending ? 'Placing Order...' : `Place Order — ₹${cart.total.toLocaleString('en-IN')}`}
+            {checkoutMut.isPending ? 'Placing Order...' :
+              form.paymentMethod === 'EMI'
+                ? `Start EMI — ₹${calcEmi(cart.total, form.emiMonths).toLocaleString('en-IN')}/mo × ${form.emiMonths}`
+                : `Place Order — ₹${cart.total.toLocaleString('en-IN')}`
+            }
           </button>
         </form>
 
