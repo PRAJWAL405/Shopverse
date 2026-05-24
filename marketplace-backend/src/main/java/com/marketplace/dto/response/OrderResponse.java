@@ -10,8 +10,13 @@ public class OrderResponse {
     private Long id;
     private String status;
     private String paymentStatus;
+    private String paymentMethod;
     private BigDecimal totalAmount;
     private String shippingAddress;
+    private String customerPhone;
+    private String customerEmail;
+    private String cancelReason;
+    private String returnStatus;
     private String cardLastFour;
     private ZonedDateTime createdAt;
     private ZonedDateTime updatedAt;

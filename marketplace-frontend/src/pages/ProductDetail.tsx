@@ -105,11 +105,21 @@ export const ProductDetail = () => {
                   ))}
                 </select>
                 <button 
-                  className="btn btn-primary flex-1 justify-center"
+                  className="btn btn-outline flex-1 justify-center"
                   onClick={() => isAuthenticated ? cartMut.mutate() : navigate('/login')}
                   disabled={cartMut.isPending}
                 >
                   <ShoppingCart size={18} /> {cartMut.isPending ? 'Adding...' : 'Add to Cart'}
+                </button>
+                <button 
+                  className="btn btn-primary flex-1 justify-center"
+                  onClick={() => {
+                    if (!isAuthenticated) return navigate('/login')
+                    cartMut.mutate(undefined, { onSuccess: () => navigate('/checkout') })
+                  }}
+                  disabled={cartMut.isPending}
+                >
+                  Buy Now
                 </button>
               </div>
             </div>

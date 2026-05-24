@@ -39,6 +39,21 @@ public class Order {
     @Column(name = "shipping_address", columnDefinition = "TEXT")
     private String shippingAddress;
 
+    @Column(name = "payment_method", length = 20)
+    private String paymentMethod;
+
+    @Column(name = "cancel_reason", columnDefinition = "TEXT")
+    private String cancelReason;
+
+    @Column(name = "return_status", length = 30)
+    private String returnStatus;
+
+    @Column(name = "customer_phone", length = 20)
+    private String customerPhone;
+
+    @Column(name = "customer_email", length = 150)
+    private String customerEmail;
+
     @Column(name = "card_last_four", length = 4)
     private String cardLastFour;
 

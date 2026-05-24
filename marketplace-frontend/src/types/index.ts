@@ -56,11 +56,16 @@ export interface OrderItemResponse {
 
 export interface OrderResponse {
   id: number
-  status: 'PLACED' | 'CONFIRMED' | 'SHIPPED' | 'DELIVERED' | 'CANCELLED'
+  status: 'PLACED' | 'CONFIRMED' | 'SHIPPED' | 'DELIVERED' | 'CANCELLED' | 'RETURN_REQUESTED' | 'RETURN_APPROVED' | 'EXCHANGE_REQUESTED'
   paymentStatus: string
+  paymentMethod?: string
   totalAmount: number
   shippingAddress: string
-  cardLastFour: string
+  customerPhone?: string
+  customerEmail?: string
+  cancelReason?: string
+  returnStatus?: string
+  cardLastFour?: string
   createdAt: string
   updatedAt: string
   items: OrderItemResponse[]

@@ -1,24 +1,41 @@
 package com.marketplace.dto.request;
 
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 import lombok.Data;
 
 @Data
 public class CheckoutRequest {
+
+    // Customer details
     @NotBlank
-    private String shippingAddress;
+    private String fullName;
 
-    @NotBlank @Size(min = 16, max = 16) @Pattern(regexp = "\\d+")
-    private String cardNumber;
+    @NotBlank @Email
+    private String email;
 
-    @NotBlank @Pattern(regexp = "\\d{2}/\\d{2}")
-    private String expiryDate;
+    @NotBlank @Pattern(regexp = "\\d{10}")
+    private String phone;
 
-    @NotBlank @Pattern(regexp = "\\d{3,4}")
-    private String cvv;
+    // Shipping address (structured)
+    @NotBlank
+    private String street;
 
     @NotBlank
-    private String cardHolderName;
+    private String city;
+
+    @NotBlank
+    private String state;
+
+    @NotBlank @Pattern(regexp = "\\d{6}")
+    private String pincode;
+
+    // Payment
+    @NotBlank @Pattern(regexp = "UPI|NET_BANKING|COD")
+    private String paymentMethod;
+
+    // UPI (required only if paymentMethod = UPI)
+    private String upiId;
+
+    // Net Banking (optional)
+    private String bankName;
 }

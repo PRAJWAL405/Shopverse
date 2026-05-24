@@ -37,10 +37,10 @@ public class OrderService {
         Map<Long, Integer> cartItems = cartService.getCartItems(buyerId);
         if (cartItems.isEmpty()) throw new BadRequestException("Cart is empty.");
 
-        // Simulate payment: 80% success rate
-        boolean paymentSuccess = Math.random() < 0.8;
-        String paymentStatus = paymentSuccess ? "PAID" : "FAILED";
+        // Payment simulation: COD always succeeds, UPI/Bank 95% success
+        boolean paymentSuccess = "COD".equals(req.getPaymentMethod()) || Math.random() < 0.95;
         if (!paymentSuccess) throw new PaymentFailedException("Payment declined. Please try again.");
+        String paymentStatus = "COD".equals(req.getPaymentMethod()) ? "PENDING_COD" : "PAID";
 
         User buyer = userRepository.findById(buyerId)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found"));
@@ -61,7 +61,6 @@ public class OrderService {
                 throw new OutOfStockException("Insufficient stock for: " + product.getName()
                         + " (requested: " + qty + ", available: " + product.getStockQty() + ")");
 
-            // Deduct stock — triggers OptimisticLockException if concurrent update
             product.setStockQty(product.getStockQty() - qty);
             productRepository.save(product);
 
@@ -77,13 +76,21 @@ public class OrderService {
                     .build());
         }
 
+        // Build full shipping address from structured fields
+        String fullAddress = req.getFullName() + "\n"
+                + req.getStreet() + "\n"
+                + req.getCity() + ", " + req.getState() + " - " + req.getPincode();
+
         Order order = Order.builder()
                 .buyer(buyer)
                 .status(OrderStatus.PLACED)
                 .totalAmount(total)
                 .paymentStatus(paymentStatus)
-                .shippingAddress(req.getShippingAddress())
-                .cardLastFour(req.getCardNumber().substring(req.getCardNumber().length() - 4))
+                .paymentMethod(req.getPaymentMethod())
+                .shippingAddress(fullAddress)
+                .customerPhone(req.getPhone())
+                .customerEmail(req.getEmail())
+                .cardLastFour(null)
                 .build();
 
         orderItems.forEach(item -> item.setOrder(order));
@@ -107,7 +114,6 @@ public class OrderService {
     public OrderResponse getOrder(Long orderId, Long userId) {
         Order order = orderRepository.findById(orderId)
                 .orElseThrow(() -> new ResourceNotFoundException("Order not found: " + orderId));
-        // Buyers see their own orders; sellers can see orders with their items
         boolean isBuyer = order.getBuyer().getId().equals(userId);
         boolean isSeller = order.getItems().stream().anyMatch(i -> i.getSeller().getId().equals(userId));
         if (!isBuyer && !isSeller) throw new ForbiddenException("Access denied.");
@@ -130,12 +136,12 @@ public class OrderService {
     }
 
     @Transactional
-    public OrderResponse cancelOrder(Long orderId, Long buyerId) {
+    public OrderResponse cancelOrder(Long orderId, Long buyerId, String reason) {
         Order order = orderRepository.findById(orderId)
                 .orElseThrow(() -> new ResourceNotFoundException("Order not found: " + orderId));
         if (!order.getBuyer().getId().equals(buyerId)) throw new ForbiddenException("Access denied.");
-        if (order.getStatus() != OrderStatus.PLACED)
-            throw new OrderStateException("Can only cancel PLACED orders.");
+        if (order.getStatus() != OrderStatus.PLACED && order.getStatus() != OrderStatus.CONFIRMED)
+            throw new OrderStateException("Can only cancel PLACED or CONFIRMED orders.");
 
         // Restore stock
         order.getItems().forEach(item -> {
@@ -144,6 +150,31 @@ public class OrderService {
             productRepository.save(p);
         });
         order.setStatus(OrderStatus.CANCELLED);
+        order.setCancelReason(reason);
+        return toResponse(orderRepository.save(order));
+    }
+
+    @Transactional
+    public OrderResponse requestReturn(Long orderId, Long buyerId, String reason) {
+        Order order = orderRepository.findById(orderId)
+                .orElseThrow(() -> new ResourceNotFoundException("Order not found: " + orderId));
+        if (!order.getBuyer().getId().equals(buyerId)) throw new ForbiddenException("Access denied.");
+        if (order.getStatus() != OrderStatus.DELIVERED)
+            throw new OrderStateException("Returns can only be requested for DELIVERED orders.");
+        order.setStatus(OrderStatus.RETURN_REQUESTED);
+        order.setReturnStatus("RETURN_REQUESTED: " + reason);
+        return toResponse(orderRepository.save(order));
+    }
+
+    @Transactional
+    public OrderResponse requestExchange(Long orderId, Long buyerId, String reason) {
+        Order order = orderRepository.findById(orderId)
+                .orElseThrow(() -> new ResourceNotFoundException("Order not found: " + orderId));
+        if (!order.getBuyer().getId().equals(buyerId)) throw new ForbiddenException("Access denied.");
+        if (order.getStatus() != OrderStatus.DELIVERED)
+            throw new OrderStateException("Exchange can only be requested for DELIVERED orders.");
+        order.setStatus(OrderStatus.EXCHANGE_REQUESTED);
+        order.setReturnStatus("EXCHANGE_REQUESTED: " + reason);
         return toResponse(orderRepository.save(order));
     }
 
@@ -199,8 +230,13 @@ public class OrderService {
         return OrderResponse.builder()
                 .id(o.getId()).status(o.getStatus().name())
                 .paymentStatus(o.getPaymentStatus())
+                .paymentMethod(o.getPaymentMethod())
                 .totalAmount(o.getTotalAmount())
                 .shippingAddress(o.getShippingAddress())
+                .customerPhone(o.getCustomerPhone())
+                .customerEmail(o.getCustomerEmail())
+                .cancelReason(o.getCancelReason())
+                .returnStatus(o.getReturnStatus())
                 .cardLastFour(o.getCardLastFour())
                 .createdAt(o.getCreatedAt()).updatedAt(o.getUpdatedAt())
                 .items(items).build();

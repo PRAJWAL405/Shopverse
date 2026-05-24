@@ -3,8 +3,10 @@ import type { OrderResponse, PageResponse } from '../types'
 
 export const orderApi = {
   checkout: (data: {
-    shippingAddress: string
-    cardNumber: string; expiryDate: string; cvv: string; cardHolderName: string
+    fullName: string; email: string; phone: string
+    street: string; city: string; state: string; pincode: string
+    paymentMethod: 'UPI' | 'NET_BANKING' | 'COD'
+    upiId?: string; bankName?: string
   }) => api.post<OrderResponse>('/orders/checkout', data).then(r => r.data),
 
   myOrders: (page = 0, size = 10) =>
@@ -12,5 +14,12 @@ export const orderApi = {
 
   getOne: (id: number) => api.get<OrderResponse>(`/orders/${id}`).then(r => r.data),
 
-  cancel: (id: number) => api.post<OrderResponse>(`/orders/${id}/cancel`).then(r => r.data),
+  cancel: (id: number, reason: string) =>
+    api.post<OrderResponse>(`/orders/${id}/cancel`, { reason }).then(r => r.data),
+
+  requestReturn: (id: number, reason: string) =>
+    api.post<OrderResponse>(`/orders/${id}/return`, { reason }).then(r => r.data),
+
+  requestExchange: (id: number, reason: string) =>
+    api.post<OrderResponse>(`/orders/${id}/exchange`, { reason }).then(r => r.data),
 }

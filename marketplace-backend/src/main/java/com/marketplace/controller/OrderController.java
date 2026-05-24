@@ -1,6 +1,7 @@
 package com.marketplace.controller;
 
 import com.marketplace.dto.request.CheckoutRequest;
+import com.marketplace.dto.request.OrderActionRequest;
 import com.marketplace.dto.response.OrderResponse;
 import com.marketplace.dto.response.PageResponse;
 import com.marketplace.repository.UserRepository;
@@ -42,8 +43,26 @@ public class OrderController {
 
     @PostMapping("/{id}/cancel")
     public ResponseEntity<OrderResponse> cancel(@PathVariable Long id,
-                                                 @AuthenticationPrincipal UserDetails ud) {
-        return ResponseEntity.ok(orderService.cancelOrder(id, userId(ud)));
+                                                @RequestBody(required = false) OrderActionRequest req,
+                                                @AuthenticationPrincipal UserDetails ud) {
+        String reason = req != null ? req.getReason() : "No reason provided";
+        return ResponseEntity.ok(orderService.cancelOrder(id, userId(ud), reason));
+    }
+
+    @PostMapping("/{id}/return")
+    public ResponseEntity<OrderResponse> requestReturn(@PathVariable Long id,
+                                                       @RequestBody(required = false) OrderActionRequest req,
+                                                       @AuthenticationPrincipal UserDetails ud) {
+        String reason = req != null ? req.getReason() : "No reason provided";
+        return ResponseEntity.ok(orderService.requestReturn(id, userId(ud), reason));
+    }
+
+    @PostMapping("/{id}/exchange")
+    public ResponseEntity<OrderResponse> requestExchange(@PathVariable Long id,
+                                                         @RequestBody(required = false) OrderActionRequest req,
+                                                         @AuthenticationPrincipal UserDetails ud) {
+        String reason = req != null ? req.getReason() : "No reason provided";
+        return ResponseEntity.ok(orderService.requestExchange(id, userId(ud), reason));
     }
 
     private Long userId(UserDetails ud) {
