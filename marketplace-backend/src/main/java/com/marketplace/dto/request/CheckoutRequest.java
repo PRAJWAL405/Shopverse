@@ -30,7 +30,7 @@ public class CheckoutRequest {
     private String pincode;
 
     // Payment
-    @NotBlank @Pattern(regexp = "UPI|NET_BANKING|COD")
+    @NotBlank @Pattern(regexp = "UPI|NET_BANKING|COD|EMI")
     private String paymentMethod;
 
     // UPI (required only if paymentMethod = UPI)

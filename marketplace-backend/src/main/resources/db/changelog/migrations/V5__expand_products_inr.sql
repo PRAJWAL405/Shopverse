@@ -183,8 +183,8 @@ INSERT INTO products (seller_id, category_id, name, description, price, stock_qt
   (SELECT id FROM categories WHERE slug = 'books'),
   'Clean Code by Robert C. Martin', 'A handbook of agile software craftsmanship. Must-read for every software developer. Hardcover, 431 pages.', 3299.00, 100, 'ACTIVE';
 
-INSERT INTO product_images (product_id, url, display_order) SELECT id, 'https://images.unsplash.com/photo-1544947950-fa07a98d237f?w=600', 0 FROM products WHERE name = 'Rich Dad Poor Dad';
-INSERT INTO product_images (product_id, url, display_order) SELECT id, 'https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=600', 0 FROM products WHERE name = 'Clean Code by Robert C. Martin';
+INSERT INTO product_images (product_id, url, display_order) SELECT id, 'https://www.nicepng.com/png/detail/211-2115322_rich-dad-poor-dad-png-rich-dad-poor.png', 0 FROM products WHERE name = 'Rich Dad Poor Dad';
+INSERT INTO product_images (product_id, url, display_order) SELECT id, 'https://m.media-amazon.com/images/I/41nUxzDHD-L.jpg', 0 FROM products WHERE name = 'Clean Code by Robert C. Martin';
 
 -- =============================================================
 -- SPORTS & OUTDOORS — 2 more (total = 5)
@@ -200,7 +200,7 @@ INSERT INTO products (seller_id, category_id, name, description, price, stock_qt
   'Decathlon Resistance Bands Set', 'Set of 5 resistance bands (10–50kg). 100% natural latex. Includes carry bag and exercise guide. Great for home workouts.', 999.00, 300, 'ACTIVE';
 
 INSERT INTO product_images (product_id, url, display_order) SELECT id, 'https://images.unsplash.com/photo-1614632537197-38a17061c2bd?w=600', 0 FROM products WHERE name = 'Nivia Storm Football (Size 5)';
-INSERT INTO product_images (product_id, url, display_order) SELECT id, 'https://images.unsplash.com/photo-1598300042247-d088f8ab3a91?w=600', 0 FROM products WHERE name = 'Decathlon Resistance Bands Set';
+INSERT INTO product_images (product_id, url, display_order) SELECT id, 'https://m.media-amazon.com/images/I/312vEdxBqxL.jpg', 0 FROM products WHERE name = 'Decathlon Resistance Bands Set';
 
 -- =============================================================
 -- BEAUTY & HEALTH — 5 products (new category)
@@ -264,8 +264,8 @@ INSERT INTO products (seller_id, category_id, name, description, price, stock_qt
   (SELECT id FROM categories WHERE slug = 'toys-games'),
   'Rubik''s Cube 3x3 Original', 'The original Rubik''s 3x3 Cube. Smooth rotation, vibrant colors. A timeless puzzle challenge for ages 8+.', 499.00, 400, 'ACTIVE';
 
-INSERT INTO product_images (product_id, url, display_order) SELECT id, 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600', 0 FROM products WHERE name = 'LEGO Classic Bricks Set (484 pcs)';
-INSERT INTO product_images (product_id, url, display_order) SELECT id, 'https://placehold.co/600x600/f59e0b/ffffff?text=Ludo+Game', 0 FROM products WHERE name = 'Funskool Ludo + Snakes & Ladders';
+INSERT INTO product_images (product_id, url, display_order) SELECT id, 'https://toycra.com/cdn/shop/products/Lego-10696-Classic-Medium-Creative-Brick-Box-484-pcs-Construction-Lego-Toycra-2_512x512.jpg?v=1681467649', 0 FROM products WHERE name = 'LEGO Classic Bricks Set (484 pcs)';
+INSERT INTO product_images (product_id, url, display_order) SELECT id, 'https://rukminim2.flixcart.com/image/416/416/xif0q/board-game/c/9/2/-original-imah8xsmqkjgyrrg.jpeg?q=70&crop=false', 0 FROM products WHERE name = 'Funskool Ludo + Snakes & Ladders';
 INSERT INTO product_images (product_id, url, display_order) SELECT id, 'https://images.unsplash.com/photo-1594736797933-d0501ba2fe65?w=600', 0 FROM products WHERE name = 'Hot Wheels 20-Car Gift Pack';
 INSERT INTO product_images (product_id, url, display_order) SELECT id, 'https://placehold.co/600x600/10b981/ffffff?text=Fisher+Price', 0 FROM products WHERE name = 'Fisher-Price Laugh & Learn Smart Stages';
 INSERT INTO product_images (product_id, url, display_order) SELECT id, 'https://images.unsplash.com/photo-1591107280024-de9e06a91e6a?w=600', 0 FROM products WHERE name = 'Rubik''s Cube 3x3 Original';
@@ -298,8 +298,8 @@ INSERT INTO products (seller_id, category_id, name, description, price, stock_qt
   (SELECT id FROM categories WHERE slug = 'automotive'),
   'Bosch Fuel Saver Windshield Wipers', 'Aerotwin flat blade design for streak-free wiping. Rust-resistant spoiler. Fits most cars. Set of 2. All-weather performance.', 1499.00, 200, 'ACTIVE';
 
-INSERT INTO product_images (product_id, url, display_order) SELECT id, 'https://images.unsplash.com/photo-1605559424843-9073c6e102ac?w=600', 0 FROM products WHERE name = 'Michelin Car Dashboard Camera';
-INSERT INTO product_images (product_id, url, display_order) SELECT id, 'https://placehold.co/600x600/374151/ffffff?text=Car+Battery', 0 FROM products WHERE name = 'Amaron Go 44B20L Car Battery';
-INSERT INTO product_images (product_id, url, display_order) SELECT id, 'https://placehold.co/600x600/0f766e/ffffff?text=Phone+Holder', 0 FROM products WHERE name = 'Venting Car Phone Holder';
-INSERT INTO product_images (product_id, url, display_order) SELECT id, 'https://placehold.co/600x600/7c3aed/ffffff?text=Car+Care+Kit', 0 FROM products WHERE name = 'Armor All Car Interior Kit';
-INSERT INTO product_images (product_id, url, display_order) SELECT id, 'https://placehold.co/600x600/0369a1/ffffff?text=Bosch+Wipers', 0 FROM products WHERE name = 'Bosch Fuel Saver Windshield Wipers';
+INSERT INTO product_images (product_id, url, display_order) SELECT id, 'https://callmateindia.com/cdn/shop/files/Roadvoyager_H-23_Dash_cam-WEB-no_back_cam.jpg?v=1768994457&width=1000', 0 FROM products WHERE name = 'Michelin Car Dashboard Camera';
+INSERT INTO product_images (product_id, url, display_order) SELECT id, 'https://www.batterybhai.com/common/uploaded_files/battery_image/A190E4A13F_1679989696_go-38b20l.jpg', 0 FROM products WHERE name = 'Amaron Go 44B20L Car Battery';
+INSERT INTO product_images (product_id, url, display_order) SELECT id, 'https://images-na.ssl-images-amazon.com/images/I/81woLlSmlHL.jpg', 0 FROM products WHERE name = 'Venting Car Phone Holder';
+INSERT INTO product_images (product_id, url, display_order) SELECT id, 'https://m.media-amazon.com/images/I/71NjOKTZy3L.jpg', 0 FROM products WHERE name = 'Armor All Car Interior Kit';
+INSERT INTO product_images (product_id, url, display_order) SELECT id, 'https://www.wiperblades.co.uk/cdn/shop/files/715af8a0a8c3f9dd0601cdd31e3e72519e0b0916_076b29ee-b9cd-4d52-8f67-2bbe4577e731.png?v=1732020875&width=400', 0 FROM products WHERE name = 'Bosch Fuel Saver Windshield Wipers';

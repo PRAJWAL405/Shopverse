@@ -5,7 +5,7 @@ export const orderApi = {
   checkout: (data: {
     fullName: string; email: string; phone: string
     street: string; city: string; state: string; pincode: string
-    paymentMethod: 'UPI' | 'NET_BANKING' | 'COD'
+    paymentMethod: 'UPI' | 'NET_BANKING' | 'COD' | 'EMI'
     upiId?: string; bankName?: string
   }) => api.post<OrderResponse>('/orders/checkout', data).then(r => r.data),
 
