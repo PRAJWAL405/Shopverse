@@ -81,9 +81,16 @@ export const Browse = () => {
 
           <div className="form-group">
             <label className="form-label">Price Range</label>
-            <div className="flex gap-2">
-              <input type="number" placeholder="Min" value={minPrice} onChange={e => setMinPrice(e.target.value)} />
-              <input type="number" placeholder="Max" value={maxPrice} onChange={e => setMaxPrice(e.target.value)} />
+            <div className="flex gap-2 items-center">
+              <div className="relative w-full">
+                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-muted text-sm font-bold">₹</span>
+                <input type="number" className="pl-7" placeholder="Min" value={minPrice} onChange={e => setMinPrice(e.target.value)} style={{ paddingLeft: '1.75rem' }} />
+              </div>
+              <span className="text-muted">-</span>
+              <div className="relative w-full">
+                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-muted text-sm font-bold">₹</span>
+                <input type="number" className="pl-7" placeholder="Max" value={maxPrice} onChange={e => setMaxPrice(e.target.value)} style={{ paddingLeft: '1.75rem' }} />
+              </div>
             </div>
           </div>
         </aside>

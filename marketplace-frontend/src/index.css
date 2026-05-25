@@ -137,9 +137,9 @@ button { cursor: pointer; border: none; background: none; font-family: var(--fon
 
 input, select, textarea {
   font-family: var(--font-body);
-  background: rgba(245, 241, 234, 0.03);
+  background-color: var(--clr-surface-2) !important;
   border: 1px solid var(--clr-border);
-  color: var(--clr-text);
+  color: var(--clr-text) !important;
   border-radius: var(--radius-md);
   padding: 0.85rem 1.05rem;
   width: 100%;
@@ -148,18 +148,68 @@ input, select, textarea {
   font-size: 0.92rem;
   font-weight: 400;
 }
-input:hover, select:hover, textarea:hover { border-color: var(--clr-border-hover); }
+input:hover, select:hover, textarea:hover {
+  border-color: var(--clr-border-hover);
+  background-color: var(--clr-surface-3) !important;
+}
 input:focus, select:focus, textarea:focus {
   border-color: var(--clr-primary);
-  background: rgba(245, 241, 234, 0.05);
+  background-color: var(--clr-surface-3) !important;
   box-shadow: 0 0 0 4px var(--clr-primary-glow);
 }
 input::placeholder, textarea::placeholder { color: var(--clr-text-muted); font-weight: 300; }
 label { font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--clr-text-secondary); display: block; margin-bottom: 0.45rem; font-weight: 500; }
 
+/* Native dropdown option styling for dark mode */
+select option {
+  background-color: var(--clr-surface-2) !important;
+  color: var(--clr-text) !important;
+}
+
+/* Prevents Chrome autofill from overriding the dark theme styling */
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus,
+textarea:-webkit-autofill,
+textarea:-webkit-autofill:hover,
+textarea:-webkit-autofill:focus,
+select:-webkit-autofill,
+select:-webkit-autofill:hover,
+select:-webkit-autofill:focus {
+  -webkit-text-fill-color: var(--clr-text) !important;
+  -webkit-box-shadow: 0 0 0px 1000px var(--clr-surface-2) inset !important;
+  transition: background-color 5000s ease-in-out 0s;
+}
+
 /* ====================== Layout ====================== */
 .container { max-width: 1320px; margin: 0 auto; padding: 0 1.75rem; }
 .page { padding: 3.5rem 0 6rem; }
+
+.browse-layout {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 3.5rem;
+  align-items: start;
+}
+
+@media (max-width: 900px) {
+  .browse-layout {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+}
+
+.filter-panel {
+  position: sticky;
+  top: 100px;
+  background: var(--grad-card);
+  border: 1px solid var(--clr-border);
+  border-radius: var(--radius-lg);
+  padding: 1.75rem;
+  box-shadow: var(--shadow-inset);
+  max-height: calc(100vh - 120px);
+  overflow-y: auto;
+}
 
 /* ====================== Buttons ====================== */
 .btn {
@@ -577,3 +627,26 @@ tbody tr:hover { background: rgba(245, 241, 234, 0.02); }
   .navbar__inner { gap: 0.75rem; }
   .navbar__link { padding: 0.5rem 0.6rem; font-size: 0.78rem; }
 }
+
+/* Bento card styles & zoom hover effects */
+.bento-card {
+  position: relative;
+  transition: var(--transition);
+}
+.bento-card:hover {
+  border-color: var(--clr-border-strong) !important;
+  box-shadow: var(--shadow-lg);
+  transform: translateY(-4px);
+}
+.bento-card__bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  opacity: 0.28; /* subtle editorial image look */
+  transition: transform 0.9s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.4s ease;
+}
+.bento-card:hover .bento-card__bg {
+  transform: scale(1.06);
+  opacity: 0.45; /* brighten slightly on hover */
+}
+

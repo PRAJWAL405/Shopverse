@@ -65,7 +65,11 @@ public class OrderService {
             productRepository.save(product);
 
             BigDecimal subtotal = product.getPrice().multiply(BigDecimal.valueOf(qty));
-            total = total.add(subtotal);
+            BigDecimal shipping = BigDecimal.ZERO;
+            if (product.getPrice().compareTo(BigDecimal.valueOf(500)) < 0) {
+                shipping = BigDecimal.valueOf(75).multiply(BigDecimal.valueOf(qty));
+            }
+            total = total.add(subtotal).add(shipping);
 
             orderItems.add(OrderItem.builder()
                     .product(product)

@@ -100,8 +100,15 @@ public class CartService {
             });
         }
 
-        total = items.stream().map(CartResponse.CartItemResponse::getSubtotal)
+        BigDecimal subtotalSum = items.stream().map(CartResponse.CartItemResponse::getSubtotal)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
+
+        BigDecimal shippingTotal = items.stream()
+                .filter(i -> i.getUnitPrice().compareTo(BigDecimal.valueOf(500)) < 0)
+                .map(i -> BigDecimal.valueOf(75).multiply(BigDecimal.valueOf(i.getQuantity())))
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+
+        total = subtotalSum.add(shippingTotal);
 
         return CartResponse.builder()
                 .items(items)

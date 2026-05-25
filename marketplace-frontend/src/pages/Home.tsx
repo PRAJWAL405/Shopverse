@@ -12,9 +12,27 @@ const fade = (delay = 0) => ({
 })
 
 const editorial = [
-  { tag: 'New Season', title: 'Quiet luxury, loud detail.', sub: 'Drop 04 — Crafted in muted earth tones.' },
-  { tag: 'Atelier', title: 'Made by hand. Made to last.', sub: 'Independent makers from 42 countries.' },
-  { tag: 'Edit', title: 'The Heritage Edit.', sub: 'Considered objects for considered living.' },
+  { 
+    tag: 'Apparel', 
+    title: 'Quiet luxury, loud detail.', 
+    sub: 'Curated clothing and fabrics crafted in muted earth tones.',
+    image: 'https://images.unsplash.com/photo-1509631179647-0177331693ae?auto=format&fit=crop&w=800&q=80',
+    link: '/products?category=2' // Clothing
+  },
+  { 
+    tag: 'Electronics', 
+    title: 'Designed for performance.', 
+    sub: 'Premium laptops, audio gear, and workspace accessories.',
+    image: 'https://images.unsplash.com/photo-1531297484001-80022131f5a1?auto=format&fit=crop&w=800&q=80',
+    link: '/products?category=1' // Electronics / Laptops
+  },
+  { 
+    tag: 'Toys & Games', 
+    title: 'The Playroom Edit.', 
+    sub: 'Vetted toys, puzzles, and board games built to entertain all ages.',
+    image: 'https://images.unsplash.com/photo-1611195974226-a6a9be9dd763?auto=format&fit=crop&w=800&q=80', // Premium chess/game aesthetic
+    link: '/products?category=7' // Toys & Games
+  },
 ]
 
 export const Home = () => {
@@ -53,7 +71,7 @@ export const Home = () => {
               Enter the shop <ArrowRight size={18} />
             </Link>
             <Link to="/register" className="btn btn-outline btn-lg">
-              Open an atelier
+              Become a seller
             </Link>
           </motion.div>
 
@@ -86,51 +104,82 @@ export const Home = () => {
                 ? { gridColumn: 'span 5' }
                 : { gridColumn: 'span 5' }
             return (
-              <motion.div
+              <Link
                 key={card.title}
-                initial={{ opacity: 0, y: 24 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: '-100px' }}
-                transition={{ duration: 0.7, delay: i * 0.08, ease: [0.22, 1, 0.36, 1] }}
+                to={card.link}
                 style={{
                   ...span,
-                  position: 'relative', overflow: 'hidden',
-                  borderRadius: 'var(--radius-xl)',
-                  border: '1px solid var(--clr-border)',
-                  background: i === 0
-                    ? 'linear-gradient(160deg, #1e1b16 0%, #0c0c0c 100%)'
-                    : i === 1
-                      ? 'linear-gradient(160deg, #1a1a1a 0%, #161616 100%)'
-                      : 'linear-gradient(160deg, #221d15 0%, #131110 100%)',
-                  padding: 'clamp(1.5rem, 2.5vw, 2.5rem)',
-                  display: 'flex', flexDirection: 'column', justifyContent: 'space-between',
-                  cursor: 'pointer',
-                  minHeight: i === 0 ? 360 : 220,
+                  display: 'flex',
+                  textDecoration: 'none',
+                  color: 'inherit',
                 }}
-                className="bento-card"
               >
-                <span style={{
-                  fontSize: '0.68rem', letterSpacing: '0.2em', textTransform: 'uppercase',
-                  color: 'var(--clr-primary-light)', fontWeight: 500,
-                }}>{card.tag}</span>
-
-                <div style={{ marginTop: 'auto' }}>
-                  <h2 style={{
-                    fontSize: i === 0 ? 'clamp(2rem, 4vw, 3.4rem)' : 'clamp(1.4rem, 2.2vw, 2rem)',
-                    fontWeight: 400, letterSpacing: '-0.02em',
-                    fontFamily: 'var(--font-display)',
-                  }}>{card.title}</h2>
-                  <p className="text-secondary text-sm" style={{ marginTop: '0.6rem', maxWidth: '40ch' }}>
-                    {card.sub}
-                  </p>
-                  <div className="flex items-center gap-2 mt-4" style={{
-                    fontSize: '0.78rem', letterSpacing: '0.14em', textTransform: 'uppercase',
-                    color: 'var(--clr-text)', fontWeight: 500,
-                  }}>
-                    Discover <ArrowUpRight size={15} />
+                <motion.div
+                  initial={{ opacity: 0, y: 24 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: '-100px' }}
+                  transition={{ duration: 0.7, delay: i * 0.08, ease: [0.22, 1, 0.36, 1] }}
+                  style={{
+                    position: 'relative', overflow: 'hidden',
+                    borderRadius: 'var(--radius-xl)',
+                    border: '1px solid var(--clr-border)',
+                    background: i === 0
+                      ? 'linear-gradient(160deg, #1e1b16 0%, #0c0c0c 100%)'
+                      : i === 1
+                        ? 'linear-gradient(160deg, #1a1a1a 0%, #161616 100%)'
+                        : 'linear-gradient(160deg, #221d15 0%, #131110 100%)',
+                    padding: 'clamp(1.5rem, 2.5vw, 2.5rem)',
+                    display: 'flex', flexDirection: 'column', justifyContent: 'space-between',
+                    minHeight: i === 0 ? 360 : 220,
+                    width: '100%',
+                  }}
+                  className="bento-card"
+                >
+                  {/* Background Image */}
+                  <div className="bento-card__bg">
+                    <img 
+                      src={card.image} 
+                      alt={card.title}
+                      style={{
+                        width: '100%',
+                        height: '100%',
+                        objectFit: 'cover',
+                      }}
+                    />
                   </div>
-                </div>
-              </motion.div>
+
+                  {/* Gradient Overlay for Text Readability */}
+                  <div style={{
+                    position: 'absolute',
+                    inset: 0,
+                    zIndex: 1,
+                    background: 'linear-gradient(to bottom, rgba(12, 12, 12, 0.2) 0%, rgba(12, 12, 12, 0.85) 100%)',
+                  }} />
+
+                  <span style={{
+                    fontSize: '0.68rem', letterSpacing: '0.2em', textTransform: 'uppercase',
+                    color: 'var(--clr-primary-light)', fontWeight: 500,
+                    zIndex: 2,
+                  }}>{card.tag}</span>
+
+                  <div style={{ marginTop: 'auto', zIndex: 2 }}>
+                    <h2 style={{
+                      fontSize: i === 0 ? 'clamp(2rem, 4vw, 3.4rem)' : 'clamp(1.4rem, 2.2vw, 2rem)',
+                      fontWeight: 400, letterSpacing: '-0.02em',
+                      fontFamily: 'var(--font-display)',
+                    }}>{card.title}</h2>
+                    <p className="text-secondary text-sm" style={{ marginTop: '0.6rem', maxWidth: '40ch' }}>
+                      {card.sub}
+                    </p>
+                    <div className="flex items-center gap-2 mt-4" style={{
+                      fontSize: '0.78rem', letterSpacing: '0.14em', textTransform: 'uppercase',
+                      color: 'var(--clr-text)', fontWeight: 500,
+                    }}>
+                      Discover <ArrowUpRight size={15} />
+                    </div>
+                  </div>
+                </motion.div>
+              </Link>
             )
           })}
         </div>
@@ -207,15 +256,30 @@ export const Home = () => {
             </p>
           </div>
           {[
-            { h: 'Shop', l: ['New arrivals', 'All categories', 'Gift cards', 'Sale'] },
-            { h: 'Atelier', l: ['Become a seller', 'Maker stories', 'Sustainability', 'Press'] },
-            { h: 'Help', l: ['Orders', 'Shipping', 'Returns', 'Contact'] },
+            { h: 'Shop', l: [
+              { name: 'New arrivals', to: '/products?sort=newest' },
+              { name: 'All categories', to: '/products' },
+              { name: 'Gift cards', to: '/info/gift-cards' },
+              { name: 'Sale', to: '/products' },
+            ]},
+            { h: 'Community', l: [
+              { name: 'Become a seller', to: '/login' },
+              { name: 'Maker stories', to: '/info/stories' },
+              { name: 'Sustainability', to: '/info/sustainability' },
+              { name: 'Press', to: '/info/press' },
+            ]},
+            { h: 'Help', l: [
+              { name: 'Orders', to: '/orders' },
+              { name: 'Shipping', to: '/info/shipping' },
+              { name: 'Returns', to: '/info/returns' },
+              { name: 'Contact', to: '/info/contact' },
+            ]},
           ].map(col => (
             <div key={col.h}>
               <div className="text-xs uppercase text-secondary mb-3">{col.h}</div>
               {col.l.map(item => (
-                <div key={item} style={{ marginBottom: '0.55rem' }}>
-                  <a className="text-sm text-secondary hover:underline">{item}</a>
+                <div key={item.name} style={{ marginBottom: '0.55rem' }}>
+                  <Link to={item.to} className="text-sm text-secondary hover:underline">{item.name}</Link>
                 </div>
               ))}
             </div>

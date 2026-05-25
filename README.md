@@ -42,10 +42,12 @@ graph TD
 
 ### 🛒 Buyer Experience
 - **Interactive Home Page**: Promos, product category sliders, and trending product feeds.
-- **Product Discovery**: Advanced product filtering by categories, search keywords, and price ranges.
-- **Product Details & Reviews**: Deep-dive views with rich images, specifications, and buyer reviews.
+- **Product Discovery**: Advanced product filtering via a dedicated, sticky Sidebar Panel for categories, search keywords, and price ranges.
+- **Product Details & Reviews**: Deep-dive views with rich images, specifications, shipping status, and buyer reviews.
 - **Shopping Cart**: Real-time cart updates (add/remove items, update quantities) with dynamic subtotal calculations.
+- **Dynamic Shipping Logic**: Automatically calculates and applies a ₹75 shipping fee to any items priced under ₹500 directly in the cart and checkout.
 - **Checkout & Orders**: Secure order creation with shipping/billing address input and direct order tracking.
+- **Help & Info Pages**: Dedicated, responsive pages for Shipping Policy, Returns & Exchanges, and Contact information directly linked from the site footer.
 
 ### 🏪 Seller Hub
 - **Seller Onboarding**: Dedicated signup workflow to create a Seller Profile and store details.

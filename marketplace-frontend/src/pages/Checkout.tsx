@@ -248,11 +248,15 @@ export const Checkout = () => {
           <div className="divider" />
           <div className="flex justify-between mb-2 text-sm">
             <span className="text-muted">Subtotal ({cart.itemCount} items)</span>
-            <span>₹{cart.total.toLocaleString('en-IN')}</span>
+            <span>₹{cart.items.reduce((acc, item) => acc + item.subtotal, 0).toLocaleString('en-IN')}</span>
           </div>
           <div className="flex justify-between mb-3 text-sm">
             <span className="text-muted">Delivery</span>
-            <span className="text-success font-bold">FREE</span>
+            {cart.items.some(i => i.unitPrice < 500) ? (
+              <span className="text-warning font-bold">₹{cart.items.reduce((acc, i) => i.unitPrice < 500 ? acc + (75 * i.quantity) : acc, 0).toLocaleString('en-IN')}</span>
+            ) : (
+              <span className="text-success font-bold">FREE</span>
+            )}
           </div>
           <div className="divider" />
           <div className="flex justify-between text-xl mt-3">

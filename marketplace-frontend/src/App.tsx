@@ -12,6 +12,7 @@ import { BuyerOrders } from './pages/BuyerOrders'
 import { SellerDashboard } from './pages/SellerDashboard'
 import { SellerOrders } from './pages/SellerOrders'
 import { SellerProductNew } from './pages/SellerProductNew'
+import { InfoPage } from './pages/InfoPage'
 
 const AdminUsers = () => <div className="container page"><h1 className="section-title">Admin: User Management</h1><p>Not fully implemented in this demo.</p></div>
 
@@ -21,6 +22,7 @@ function App() {
       <Navbar />
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/info/*" element={<InfoPage />} />
         <Route path="/browse" element={<Browse />} />
         <Route path="/products" element={<Browse />} />
         <Route path="/products/:id" element={<ProductDetail />} />

@@ -213,7 +213,10 @@ export const ProductDetail = () => {
           )}
 
           <div className="flex-col gap-2 mt-2">
-            <div className="flex items-center gap-2 text-sm text-muted"><Truck size={16} /> Free shipping on orders over ₹999</div>
+            <div className="flex items-center gap-2 text-sm text-muted">
+              <Truck size={16} /> 
+              {product.price < 500 ? '₹75 shipping fee applies' : 'Free shipping on this item'}
+            </div>
             <div className="flex items-center gap-2 text-sm text-muted"><Clock size={16} /> 30-day return policy</div>
           </div>
         </div>
